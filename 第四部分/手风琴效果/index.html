@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>手风琴效果</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+		color:#FFF;
+	}
+	ul{
+		list-style:none;
+	}
+	ul li{
+		float:left;
+		height:254px;
+		position:relative;
+		overflow: hidden;
+	}
+	ul li a{
+		position:absolute;
+		top:0;
+		right:0;
+		height:234px;
+		width:22px;
+		text-align:center;
+		text-decoration:none;
+		padding-top:20px;
+	}
+	img{
+		width:550px;
+		height:254px;
+	}
+	#div1{
+		width:660px;
+		height:254px;
+		border:1px solid #000;
+		margin:100px auto;
+	}
+</style>
+<script src="function.js"></script>
+<script>
+	window.onload=function(){
+		var aColor=['#0FC','#636363','#3D7FBB','#5CA716','#F28B24','#7C0070'];
+		var oDiv=document.getElementById('div1');
+		var oUl=oDiv.getElementsByTagName('ul')[0];
+		var aLi=oUl.getElementsByTagName('li');
+		var aA=oUl.getElementsByTagName('a');
+		var i=0;
+		var oldLi=aLi[0];
+		var iWidth=aLi[0].offsetWidth;
+		var iWidth1=aA[0].offsetWidth;
+
+
+		for(i=0;i<aLi.length;i++){
+			aA[i].index=i;
+			aA[i].style.backgroundColor=aColor[i];
+			if(i)
+				aLi[i].style.width=iWidth1+'px';
+			aA[i].onmouseover=function(){
+				if(oldLi!=aLi[this.index]){
+					// aLi[this.index].style.width=iWidth+'px';
+					//oldLi.style.width=iWidth1+'px';
+					startMove2(oldLi,{width:iWidth1});
+					startMove2(aLi[this.index],{width:iWidth});
+					oldLi=aLi[this.index];
+				}
+			};
+		}
+	};
+</script>
+</head>
+<body>
+<div id="div1">
+	<ul>
+		<li><img src="img/1.jpg" /><a href="#">这是第一个</a></li>
+		<li><img src="img/2.jpg" /><a href="#">这是第二个</a></li>
+		<li><img src="img/3.jpg" /><a href="#">这是第三个</a></li>
+		<li><img src="img/4.jpg" /><a href="#">这是第四个</a></li>
+		<li><img src="img/5.jpg" /><a href="#">这是第五个</a></li>
+		<li><img src="img/6.jpg" /><a href="#">这是第六个</a></li>
+	</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>360度图片旋转</title>
+<style>
+	div{
+		width:640px;
+		height:378px;
+		margin:50px auto;
+		position:relative;
+	}
+	img{
+		position:absolute;
+		top:0;
+	}
+</style>
+<sctipt src="function.js"></sctipt>
+<script>
+	window.onload=function(){
+		var oImg=document.getElementById('img1');
+		var oDiv=document.getElementById('div');
+		var pos=0;
+		var dis=0;
+		var i=0;
+		var lastDis=0;
+		var iSpeed=0;
+		var x=0;
+		var timer=null;
+		for(i=1;i<77;i++){
+			var oImg1=document.createElement('img');
+			oImg1.src='img/miaov'+i+'.jpg';
+			oImg1.style.display='none';
+			oDiv.appendChild(oImg1);
+		}
+		var aImg=document.getElementsByTagName('img');
+		var oLastImg=aImg[0];
+		document.onmousedown=function(ev){
+			var oEvent=ev||event;
+			var x1=oEvent.clientX;
+			var y1=oEvent.clientY;
+			document.onmousemove=function(ev){
+				var oEvent=ev||event;
+				var x2=oEvent.clientX;
+				var y2=oEvent.clientY;
+				var disX=x2-x1;
+				var disY=y2-y1;
+				x=disX;
+				dis=Math.sqrt(disX*disX+disY*disY)
+				iSpeed=parseInt(dis-lastDis);
+				lastDis=dis;
+				dis=parseInt(dis/10);
+				fn(x);
+				return false;
+			};
+			document.onmouseup=function(){
+				document.onmousemove=null;
+				document.onmouseup=null;
+				
+				
+				timer=setInterval(function(){
+					pos=dis;
+					dis=parseInt(iSpeed/10);
+					iSpeed=parseInt(0.9*iSpeed);document.title=iSpeed;
+					if(iSpeed==0) {
+						clearInterval(timer);
+					}
+					fn(x);
+				},30);
+			};
+			return false;
+		};
+		function fn(disX){
+			dis=disX<0?dis%77:-dis-Math.floor(-dis/77)*77;
+			dis=(dis+pos)%77;
+			if(oLastImg!=aImg[dis])
+			{
+				oLastImg.style.display='none';
+				aImg[dis].style.display='block';
+				oLastImg=aImg[dis];
+			}
+		};
+	}
+</script>
+</head>
+<body>
+<div id="div">
+	<img src="img/miaov0.jpg" id="img1" />
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>文章</title>
+<Style>
+	a{
+		font-size:25px;
+		margin-left:10px;
+	}
+</style>
+<script>
+	window.onload=function(){
+		
+		page({
+			Id:'div1',
+			nowPage:7,
+			allPage:100
+1		});
+	};
+	function page(json){
+		if(!json.Id) return false;
+		else var oDiv=document.getElementById(json.Id);
+		var nowPage=json.nowPage||1;
+		var allPage=json.allPage||5;
+		if(nowPage>=4){
+			var oA=document.createElement('a');
+			oA.href="#1";
+			oA.innerHTML='首页';
+			oDiv.appendChild(oA);
+		}
+		if(nowPage>1){
+			var oA=document.createElement('a');
+			oA.href='#'+(nowPage-1);
+			oA.innerHTML='上一页';
+			oDiv.appendChild(oA);
+		}
+		if(allPage<=5&&nowPage<=allPage){
+			for(var i=1;i<=allPage;i++){
+				var oA=document.createElement('a');
+				oA.href='#'+i;
+				if(nowPage==i)
+					oA.innerHTML=i;
+				else
+					oA.innerHTML='['+i+']';
+				oDiv.appendChild(oA);
+			}
+		}else if(nowPage==1||nowPage==2){
+			for(var i=1;i<=5;i++){
+				var oA=document.createElement('a');
+				oA.href='#'+i;
+				if(nowPage==i)
+					oA.innerHTML=i;
+				else
+					oA.innerHTML='['+i+']';
+				oDiv.appendChild(oA);
+			}
+		}else if(allPage-nowPage==1||allPage==nowPage){
+			for(var i=1;i<=5;i++){
+				var oA=document.createElement('a');
+				oA.href="#"+(allPage-5+i);
+				if(nowPage-5==i&&i>3)
+					oA.innerHTML=nowPage;
+				else oA.innerHTML='['+(allPage-5+i)+']';
+				oDiv.appendChild(oA);
+			}
+		}else{
+			for(var i=1;i<=5;i++){
+				var oA=document.createElement('a');
+				oA.href='#'+(nowPage-3+i);
+				if(i==3)
+					oA.innerHTML=nowPage;
+				else
+					oA.innerHTML='['+(nowPage-3+i)+']';
+				oDiv.appendChild(oA);
+			}
+		}
+		if(allPage-nowPage>0){
+			var oA=document.createElement('a');
+			oA.href='#'+(nowPage+1);
+			oA.innerHTML='下一页';
+			oDiv.appendChild(oA);
+		}
+		if(allPage-nowPage>=3){
+			var oA=document.createElement('a');
+			oA.href='#'+allPage;
+			oA.innerHTML='尾页';
+			oDiv.appendChild(oA);
+		}
+		var aA=oDiv.getElementsByTagName('a');
+		for(var i=0;i<aA.length;i++){
+			aA[i].onclick=function(){
+				nowPage=parseInt(this.getAttribute('href').substring(1));
+				oDiv.innerHTML='';
+				page({
+					Id:json.Id,
+					nowPage:nowPage,
+					allPage:allPage
+				});
+			}
+		}
+	};
+	
+</script>
+</head>
+<body>
+	<div id="div1">
+		<!-- <a href="#">1</a>
+		<a href="#">[2]</a>
+		<a href="#">[3]</a>
+		<a href="#">[4]</a>
+		<a href="#">[5]</a> -->
+		
+	</div>
+</body>
+</html>

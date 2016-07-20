@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>悬浮框</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	body{
+		background:#000;
+		color:#FFF;
+		font-size:13px;
+		font-family: '宋体';
+	}
+	a{
+		color:#FFF;
+		text-decoration: none;
+	}
+	ul{
+		list-style:none;
+	}
+	.fontColor{
+		color:#FF9900;
+	}
+	.div1{
+		position:fixed;
+		bottom:0;
+		right:0;
+	}
+	#open{
+		height:50px;
+		width:33px;
+		background:url(img/minibar.png) no-repeat -269px 0;
+		position:relative;
+		bottom:0;
+		right:0;
+		z-index: 2;
+	}
+	#show1{
+		position:absolute;
+		bottom:0;
+		right:-164px;
+		height:50px;
+		width:203px;
+		background:url(img/minibar.png) no-repeat 0 0;
+		z-index: 1;
+	}
+	#show1 div{
+		margin-left:43px;
+		margin-top:5px;
+		width:125px;
+	}
+	#show1 div a{
+		float:left;
+		height:22px;
+		width:25px;
+	}
+	#show1 p{
+		line-height:20px;
+		margin-top: 27px;
+		text-align: bottom;
+		padding-left:20px;
+	}
+	.aBg1:hover{
+		background:url(img/minibar.png) no-repeat 0 -51px;
+	}
+	.aBg2:hover{
+		background:url(img/minibar.png) no-repeat -25px -51px;
+	}
+	.aBg3:hover{
+		background:url(img/minibar.png) no-repeat -50px -51px;
+	}
+	.aBg4:hover{
+		background:url(img/minibar.png) no-repeat -75px -51px;
+	}
+	.aBg5:hover{
+		background:url(img/minibar.png) no-repeat -100px -51px;
+	}
+	#show2{
+		position:absolute;
+		top:1px;/* -313 */
+		right:0;
+		height:315px;
+		width:200px;
+		background:url(img/mini_jpgs.jpg) no-repeat ;
+		display:none;
+	}
+	.menu{
+		float: left;
+		height:310px;
+		width:34px;
+		padding-top:5px;
+	}
+	.menu ul li{
+		height:27px;
+		width:34px;
+		line-height:27px;
+		text-align:center;
+		
+	}
+	.menu ul li a:hover{
+		color:#FEDE56;
+	}
+	.menu .bg{
+		background:url(img/minibar.png) no-repeat 0 -147px;
+	}
+	.content{
+		float:left;
+		width:145px;
+		padding:25px 0 0 10px;
+	}
+	#reset{
+		position:absolute;
+		right:10px;
+		top:10px;
+		width:9px;
+		height:9px;
+		background:url(img/minibar.png) no-repeat 0 -76px;
+	}
+</style>
+<script src="function.js"></script>
+<script>
+	window.onload=function(){
+		var oShow=document.getElementById('open');
+		var oShow1=document.getElementById('show1');
+		var oShow2=document.getElementById('show2');
+		var oReset=document.getElementById('reset');
+		var onOff=false;
+
+		oShow.onclick=function(){
+			if(!onOff){
+				startMove2(oShow1,{right:0},function(){
+					oShow2.style.display='block';
+					startMove2(oShow2,{top:-313});
+				});
+				onOff=true;
+			}else{
+				startMove2(oShow2,{top:1},function(){
+					oShow2.style.display='none';
+					startMove2(oShow1,{right:-164});
+				});
+				onOff=false;
+			}
+			
+		};
+		oReset.onclick=function(){
+			startMove2(oShow2,{top:1},function(){
+					oShow2.style.display='none';
+					startMove2(oShow1,{right:-164});
+			});
+			onOff=false;
+		}
+
+
+	}
+</script>
+</head>
+<body>
+<div class="div1">
+	<div id="open">
+	</div>
+	<div id="show1">
+		<div><a href="#" class="aBg1"></a><a href="#" class="aBg2"></a><a href="#" class="aBg3"></a><a href="#" class="aBg4"></a><a href="#" class="aBg5"></a></div>
+		<p>蔡雅玲-WELCOME</p>
+	</div>
+	<div id="show2">
+		<div class="menu">
+			<ul>
+				<li><a href="#" class="fontColor">天气</a></li>
+				<li class="bg"><a href="#">星座</a></li>
+				<li class="bg"><a href="#">排行</a></li>
+				<li class="bg"><a href="#">热点</a></li>
+				<li class="bg"><a href="#">直播</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<p>常德</p>
+			<dl>
+				<dd>今天（周二）<img src="img/01.gif" /></dd>
+				<dd>-1~10C 晴 微风小于3级</dd>
+				<dd>明天（周三）<img src="img/02.gif" /></dd>
+				<dd>-1~10C 多云 北风三到四级</dd>
+				<dd>后天（周四）<img src="img/01.gif" /></dd>
+				<dd>-1~10C 晴 北风三到四级转微风小于3级</dd>
+			</dl>
+			
+		</div>
+		<span id="reset"></span>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>自定义滚动条+鼠标滚轮</title>
+<style>
+#div0{
+	width:220px;
+	height:300px;
+	margin:50px auto;
+	position:relative;
+	border:1px solid #999;
+	overflow:hidden;
+}
+#div1{
+	width:180px;
+	padding:10px;
+	position:absolute;
+	top:0;
+	/* overflow: hidden; */
+}
+#scrollY{
+	height:300px;
+	border-left:1px solid #999;
+	width:20px;
+	position:absolute;
+	right:0;
+	top:0;
+}
+#div2{
+	height:20px;
+	width:20px;
+	position:absolute;
+	background:red;
+}
+</style>
+<script src="function.js"></script>
+<script>
+	window.onload=function(){
+		var oDiv=document.getElementById('div0');
+		var oDiv1=document.getElementById('div1');
+		var oScrollY=document.getElementById('scrollY');
+		var oDiv2=document.getElementById('div2');
+		var dis=oScrollY.offsetHeight-oDiv2.offsetHeight;
+		var t=0;
+		oDiv2.onmousedown=function(ev){
+			var oEvent=ev||event;
+			var disY=oEvent.clientY-this.offsetTop;
+			document.onmousemove=function(ev){
+				var oEvent=ev||event;
+				t=oEvent.clientY-disY;
+				fn(t);
+				/*if(t<0) t=0;
+				if(t>dis)
+					t=dis;
+				var scale=t/(dis);document.title=scale;
+				oDiv1.style.top=-(oDiv1.offsetHeight-oDiv.offsetHeight)*scale+'px';
+				// startMove(oDiv1,'top',-(oDiv1.offsetHeight-oDiv.offsetHeight)*scale);会出现抖动的问题
+				oDiv2.style.top=t+'px';*/
+			};
+			document.onmouseup=function(){
+				document.onmousemove=null;
+				document.onmouseup=null;
+			};
+			return false;/*解决选中文字的问题，只适用于FF*/
+		};
+		function fn(t){
+			if(t<0) t=0;
+			if(t>dis)
+				t=dis;
+			var scale=t/(dis);document.title=scale;
+			oDiv1.style.top=-(oDiv1.offsetHeight-oDiv.offsetHeight)*scale+'px';
+			oDiv2.style.top=t+'px';
+		}
+		function onMouseWheel(ev){
+			var oEvent=ev||event;
+			var bDown=true;
+			var disY=oDiv2.offsetTop;
+			bDown=oEvent.wheelDelta?oEvent.wheelDelta<0:oEvent.detail>0;
+			if(bDown){
+				disY+=10;
+				fn(disY);
+			}else{
+				disY-=10;
+				fn(disY);
+			}
+			if(oEvent.preventDefault)/*FF下*/
+				oEvent.preventDefault();/*用于该事件被绑定的情况下*/
+			return false;/*IE下*/
+		}
+		myAddEvent(document,'mousewheel',onMouseWheel);
+		myAddEvent(document,'DOMMouseScroll',onMouseWheel);
+	}
+</script>
+</head>
+<body style="height:2000px">
+<div id="div0">
+	<div id="div1">
+		11月13日22时50分许,浙江省丽水市莲都区雅溪镇里东村发生山体滑坡,截至目前共搜救出民众27名,其中26人确认死亡,仍有11人失联。16日,救援持续,灾害现场开始降温降雨。来自浙江消防总队警犬搜救队的官兵带着警犬,寻找可能存在的生命痕迹,好几只警犬被尖锐的石子划破四肢,经过消毒处理,它们又继续投入搜救。中新社记者 陈杰 摄11月13日22时50分许,浙江省丽水市莲都区雅溪镇里东村发生山体滑坡,截至目前共搜救出民众27名,其中26人确认死亡,仍有11人失联。16日,救援持续,灾害现场开始降温降雨。来自浙江消防总队警犬搜救队的官兵带着警犬,寻找可能存在的生命痕迹,好几只警犬被尖锐的石子划破四肢,经过消毒处理,它们又继续投入搜救。中新社记者 陈杰 摄
+	</div>
+	<div id="scrollY">
+		<div id="div2">
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>滑动菜单</title>
+<style>
+	*{margin:0;padding:0;}
+	#div1{margin:100px auto;width:400px;}
+	#ul1{position:relative;width:400px;overflow:hidden;}
+	li{width:98px;list-style:none;line-height:30px;border:1px solid #999;float:left;text-align:center;}
+	.wine{background:red;height:5px;position:absolute;left:0px;top:25px;border:none;}
+</style>
+<script>
+	window.onload=function(){
+		var oUl=document.getElementById('ul1');
+		var aLi=oUl.getElementsByTagName('li');
+		var i=0;
+		var iSpeed=0;
+		var left=0;
+		for(i=0;i<aLi.length-1;i++){
+			aLi[i].onmouseover=function(){
+				startMove3(aLi[aLi.length-1],this.offsetLeft);
+			}
+		}
+		function startMove3(obj,target){
+			clearInterval(obj.timer);
+			obj.timer=setInterval(function(){
+				iSpeed+=(target-obj.offsetLeft)/5;
+				iSpeed*=0.7;
+				left+=iSpeed;
+				if(Math.abs(left-target)<1 && Math.abs(iSpeed)<1)
+				{
+					clearInterval(obj.timer);
+					obj.style.left=target+'px';
+				}	
+				else
+					obj.style.left=left+'px';
+			},30);
+		};
+	}
+</script>
+</head>
+<body>
+<div id="div1">
+	<ul id="ul1">
+		<li>首页</li>
+		<li>详情</li>
+		<li>about</li>
+		<li>about</li>
+		<li class="wine"></li>
+	</ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>放大镜</title>
+<style>
+	*{margin:0;}
+	.div1{
+		position:relative;
+	}
+	#small{
+		border:1px solid #ccc;
+		width:210px;
+		height:205px;
+		padding-top:5px;
+		text-align:center;
+		position:relative;
+	}	
+	#big{
+		position:absolute;
+		left:220px;
+		top:0;
+		height:250px;
+		width:250px;
+		overflow:hidden;
+		display:none;
+		border:2px solid #aaa;
+	}
+	#big img{
+		position:relative;
+	}
+	#boxCss{
+		border:1px solid #000;
+		filter:alpha(opacity:50);
+		background:#FFF;
+		opacity:0.5;
+		width:60px;
+		height:60px;
+		position:absolute;
+		display:none;
+	}
+</style>
+<script>
+	window.onload=function(){
+		var oSmall=document.getElementById('small');
+		var oBig=document.getElementById('big');
+		var oBox=document.getElementById('boxCss');
+		var oImgSmall=document.getElementById('img');
+		var oImgBig=oBig.getElementsByTagName('img')[0];
+		var x=0;
+		var y=0;
+		oSmall.onmouseover=function(ev){
+			/*var oEvent=ev||event;
+			var disX=oEvent.clientX;
+			var disY=oEvent.clientY;
+			x=disX-oBox.offsetWidth/2;
+			y=disY-oBox.offsetHeight/2;
+			oBox.style.top=y+'px';
+			oBox.style.left=x+'px';*/
+			oBox.style.display='block';
+			oBig.style.display='block';
+			/*oImgBig.style.left=-2*x+'px';
+			oImgBig.style.top=-2*y+'px';*/
+		}
+		oSmall.onmousemove=function(ev){
+			var oEvent=ev||event;
+			var disX=oEvent.clientX;
+			var disY=oEvent.clientY;
+			x=disX-oBox.offsetWidth/2;
+			y=disY-oBox.offsetHeight/2;
+			if(y>oImgSmall.offsetHeight-oBox.offsetHeight+5){
+				y=oImgSmall.offsetHeight-oBox.offsetHeight+5;
+			}
+			if(y<5)
+				y=5;
+			if(x<5)
+				x=5;
+			if(x>oImgSmall.offsetWidth-oBox.offsetWidth+5)
+				x=oImgSmall.offsetWidth-oBox.offsetWidth+5;
+			oBox.style.top=y+'px';
+			oBox.style.left=x+'px';
+			//document.title=oBox.offsetTop+','+oBox.offsetLeft+',';
+			var scalX=x/(oImgSmall.offsetWidth-oBox.offsetWidth);
+			var scalY=y/(oImgSmall.offsetHeight-oBox.offsetHeight);
+			oImgBig.style.left=-scalX*(oImgBig.offsetWidth-oBig.offsetWidth-3)+'px';
+			oImgBig.style.top=-scalY*(oImgBig.offsetHeight-oBig.offsetHeight-3)+'px';
+		}
+		oSmall.onmouseout=function(){
+			oBox.style.display="none";
+			oBig.style.display='none';
+		}
+	}
+</script>
+</head>
+<body>
+<div class="div1">
+	<div id="small">
+		<img src="img/small.png" id="img"/>
+		<div id="boxCss"></div>
+	</div>
+	
+	<div id="big"><img src="img/big.png"/></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+	#menu{
+		height:50px;
+		width:100px;
+		background:#ccc;
+		position:absolute;
+		top:0;
+		left:0;
+		display:none;
+	}
+</style>
+<script>
+	window.onload=function(){
+		var oMenu=document.getElementById('menu');
+		document.oncontextmenu=function(ev){
+			var oEvent=ev||event;
+			var scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+			var scrollLeft=document.documentElement.scrollLeft||document.body.scrollLeft;
+			oMenu.style.top=scrollTop+oEvent.clientY+'px';
+			oMenu.style.left=scrollLeft+oEvent.clientX+'px';
+			oMenu.style.display="block";
+			return false;
+		}
+		document.onclick=function(){
+			oMenu.style.display="none";
+		}
+	}
+</script>
+</head>
+<body style="height:1000px;">
+<div>请点击右键</div>
+<div id="menu">我是右键弹出的菜单</div>
+</body>
+</html>

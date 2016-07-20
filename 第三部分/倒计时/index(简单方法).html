@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>倒计时</title>
+<style>
+	*{margin:0;padding:0;}
+	body{
+		background:url(img/body.gif) repeat;
+		color:#FFF;
+	}
+	input{
+		border:none;
+		height:18px;
+	}
+	#div1{
+		height:560px;
+		width:600px;
+		background:url(img/bg.jpg) no-repeat;
+		margin:20px auto;
+		position:relative;
+	}
+	#inTime{
+		position:absolute;
+		top:110px;
+		left:132px;
+	}
+	.inYear{
+		width:80px;
+		background:url(img/bg.jpg) no-repeat -194px -110px;
+	}
+	.inMouth{
+		background:url(img/bg.jpg) no-repeat -310px -110px;
+	}
+	.inDay{
+		background:url(img/bg.jpg) no-repeat -389px -110px;
+	}
+	.inMouth,.inDay{
+		width:50px;
+	}
+	#inTime input,#inTime span{
+		float:left;
+		text-align:center;
+	}
+	#btn{
+		position:absolute;
+		left:50%;
+		top:50%;
+		width:150px;
+		height:150px;
+		margin:-125px 0 0 -65px;
+	}
+	#outTime{
+		position:absolute;
+		bottom:200px;
+		width:100%;
+		text-align:center;
+	}
+	#outTime span{
+		color:#f3d532;
+	}
+	#disTime{
+		position:absolute;
+		bottom:112px;
+		font-size:40px;
+		color:#f3d532;
+		height:52px;
+	}
+
+	.disDay{
+		position:absolute;
+		left:70px;
+		width:100px;
+		text-align:right;
+	}
+	.disHour{
+		position:absolute;
+		left:220px;
+		width:51px;
+	}
+	.disMin{
+		position:absolute;
+		left:350px;
+		width:51px;
+	}
+	.disSec{
+		position:absolute;
+		left:450px;
+		width:51px;
+	}
+</style>
+<script>
+	window.onload=function(){
+		var aDisTime=document.getElementById('disTime').getElementsByTagName('a');
+		var outTime=document.getElementById('outTime').getElementsByTagName('span')[0];
+		var oBtn=document.getElementById('btn');
+		
+		var ifNull=true;
+		var time=null;
+		var i=0;
+		
+		oBtn.onclick=function(){
+			time=setInterval(daojishi,1000);
+			daojishi();
+		}
+
+		function daojishi(){
+			var aIpt=document.getElementsByTagName('input');
+			var Year=parseInt(aIpt[0].value);
+			var Mouth=parseInt(aIpt[1].value);
+			var Day=parseInt(aIpt[2].value);
+			for(i=0;i<aIpt.length;i++){
+				if(!aIpt[i].value)
+					ifNull=false;
+			}
+			if(ifNull){
+				var nowTime= new Date();
+				var endTime= new Date();
+				endTime.setFullYear(Year);
+				endTime.setMonth(Mouth-1);
+				endTime.setDate(Day);
+				endTime.setUTCHours(0);
+				endTime.setMinutes(0);
+				endTime.setSeconds(0);
+				var sub=(endTime.getTime()-nowTime.getTime())/1000;/*秒数*/
+				if(sub<0){
+					clearInterval(time);
+					alert('已经过了这一天~');
+					return;
+				}
+				var iDay=parseInt(sub/86400);
+				sub=sub%86400;
+				var iHours=parseInt(sub/3600);
+				sub=sub%60;
+				var iMin=parseInt(sub/60);
+				var iSec=parseInt(sub%60);
+				var nowDay = nowTime.getDate();
+				var nowHours = nowTime.getHours();
+				var nowMin = nowTime.getMinutes();
+				var nowSec = nowTime.getSeconds();
+				aDisTime[0].innerHTML=toString1(iDay,3);
+				aDisTime[1].innerHTML=toString1(iHours,2);
+				aDisTime[2].innerHTML=toString1(iMin,2);
+				aDisTime[3].innerHTML=toString1(iSec,2);
+			}
+			
+			function toString(num){
+				if(num<=9)
+					return ('0'+num);
+				else
+					return num;
+			}
+			function toString1(num,n){
+				var str=''+num;
+				while(str.length!=n){
+					str+="0";
+				}
+				return str;
+			};			
+		};
+	}
+</script>
+</head>
+<body>
+<div id="div1">
+	<div id="inTime">
+		<from>
+			<span>请输入：</span> <input type="text" class="inYear"/><span style="width:36px">年</span> 
+			<input type="text" class="inMouth"/> <span style="width:29px">月</span>
+			<input type="text" class="inDay"/>
+		</from>
+	</div>
+	<a href="#" id="btn"></a>
+	<p id="outTime">现在距离-<span>00年00月00号</span>-还剩：</p>
+	<div id="disTime"><a class="disDay">000</a><a class="disHour">00</a><a class="disMin">00</a><a class="disSec">00</a></a>
+</div>
+</body>
+</html>

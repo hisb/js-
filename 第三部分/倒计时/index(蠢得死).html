@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>倒计时</title>
+<style>
+	*{margin:0;padding:0;}
+	body{
+		background:url(img/body.gif) repeat;
+		color:#FFF;
+	}
+	input{
+		border:none;
+		height:18px;
+	}
+	#div1{
+		height:560px;
+		width:600px;
+		background:url(img/bg.jpg) no-repeat;
+		margin:20px auto;
+		position:relative;
+	}
+	#inTime{
+		position:absolute;
+		top:110px;
+		left:132px;
+	}
+	.inYear{
+		width:80px;
+		background:url(img/bg.jpg) no-repeat -194px -110px;
+	}
+	.inMouth{
+		background:url(img/bg.jpg) no-repeat -310px -110px;
+	}
+	.inDay{
+		background:url(img/bg.jpg) no-repeat -389px -110px;
+	}
+	.inMouth,.inDay{
+		width:50px;
+	}
+	#inTime input,#inTime span{
+		float:left;
+		text-align:center;
+	}
+	#btn{
+		position:absolute;
+		left:50%;
+		top:50%;
+		width:150px;
+		height:150px;
+		margin:-125px 0 0 -65px;
+	}
+	#outTime{
+		position:absolute;
+		bottom:200px;
+		width:100%;
+		text-align:center;
+	}
+	#outTime span{
+		color:#f3d532;
+	}
+	#disTime{
+		position:absolute;
+		bottom:112px;
+		font-size:40px;
+		color:#f3d532;
+		height:52px;
+	}
+
+	.disDay{
+		position:absolute;
+		left:70px;
+		width:100px;
+		text-align:right;
+	}
+	.disHour{
+		position:absolute;
+		left:220px;
+		width:51px;
+	}
+	.disMin{
+		position:absolute;
+		left:350px;
+		width:51px;
+	}
+	.disSec{
+		position:absolute;
+		left:450px;
+		width:51px;
+	}
+</style>
+<script>
+	window.onload=function(){
+		var aDisTime=document.getElementById('disTime').getElementsByTagName('a');
+		var aIpt=document.getElementsByTagName('input');
+		var outTime=document.getElementById('outTime').getElementsByTagName('span')[0];
+		var oBtn=document.getElementById('btn');
+		
+		var ifNull=true;
+		var time=null;
+		var i=0;
+		
+		oBtn.onclick=function(){
+			daojishi();
+			time=setInterval(daojishi,1000);
+		}
+
+		function daojishi(){
+			var nowTime= new Date();
+			var nowYear=nowTime.getFullYear();
+			var nowMouth = nowTime.getMonth()+1;
+			var nowDay = nowTime.getDate();
+			var nowHours = nowTime.getHours();
+			var nowMin = nowTime.getMinutes();
+			var nowSec = nowTime.getSeconds();
+			//alert(nowYear+'-'+nowMouth+'-'+nowDay+','+nowHours+'时'+nowMin+'分'+nowSec+'秒');
+			var Year=parseInt(aIpt[0].value);
+			var Mouth=parseInt(aIpt[1].value);
+			var Day=parseInt(aIpt[2].value);
+
+			for(i=0;i<aIpt.length;i++){
+				if(!aIpt[i].value)
+					ifNull=false;
+			}
+			
+			outTime.innerHTML=Year+'年'+Mouth+'月'+Day+'日';
+			
+			if(nowYear>Year) {
+				alert('已经过了这一天~');
+				return;
+			}
+			else if(nowYear==Year){ 
+				if(nowMouth>Mouth) {
+					alert('已经过了这一天~');
+					return;
+				}
+				else if(nowMouth==Mouth)
+					if(nowDay>=Day) {
+						alert('已经过了这一天~');
+						return;
+					}
+			}
+				
+			var disSec=60-nowSec;
+			var disMin=60-nowMin-1;
+			var disHour=24-nowHours-1;
+			var disMouth=0;
+			var allDays=0;/*表示要求的天数*/
+			var oneYear=ifYear();
+			var pastDay=0;
+			var dis=0;
+			if(nowYear!=Year)/*如果此时的年份不等于要查的年份就先求出此年还剩的天数。*/
+			{
+				disMouth=nowMouth;
+				nowMouth=1;
+				while(disMouth!=nowMouth){
+					pastDay+=ifMouth();
+					nowMouth++;
+				}/*pastDay表示此年已经过的天数*/
+				pastDay+=nowDay;
+				allDays+=oneYear-pastDay;
+				nowYear++;
+				nowMouth=1;
+			}else{
+				allDays=-nowDay;
+			}
+			
+			for(nowYear;Year>nowYear;nowYear++)
+				allDays+=ifYear();
+			
+			for(nowMouth;nowMouth<Mouth;nowMouth++)
+				allDays+=ifMouth();
+			
+			allDays+=Day-1;
+			aDisTime[0].innerHTML=toString(allDays);
+			aDisTime[1].innerHTML=toString(disHour);
+			aDisTime[2].innerHTML=toString(disMin);
+			aDisTime[3].innerHTML=toString(disSec);
+			function toString(num){
+				if(num<=9)
+					return ('0'+num);
+				else
+					return num;
+			}
+				
+			function ifMouth(){
+				if(nowMouth==1||nowMouth==3||nowMouth==5||nowMouth==7||nowMouth==8||nowMouth==10||nowMouth==12)
+					oneMouth=31;
+				else if(nowMouth==2) {
+					if(ifYear()==365) oneMouth=28;
+					else oneMouth=29;
+				}
+				else
+					oneMouth=30;
+				return oneMouth;
+			};
+			/*判断润平年*/
+			function ifYear(){
+				if((nowYear%4==0&&nowYear%100!=0)||(nowYear%400==0))
+					var oneYear=366;
+				else 
+					oneYear=365;
+				return oneYear;
+			};
+		};
+	}
+</script>
+</head>
+<body>
+<div id="div1">
+	<div id="inTime">
+		<from>
+			<span>请输入：</span> <input type="text" class="inYear"/><span style="width:36px">年</span> 
+			<input type="text" class="inMouth"/> <span style="width:29px">月</span>
+			<input type="text" class="inDay"/>
+		</from>
+	</div>
+	<a href="#" id="btn"></a>
+	<p id="outTime">现在距离-<span>00年00月00号</span>-还剩：</p>
+	<div id="disTime"><a class="disDay">000</a><a class="disHour">00</a><a class="disMin">00</a><a class="disSec">00</a></a>
+</div>
+</body>
+</html>

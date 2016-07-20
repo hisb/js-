@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>随机漂浮效果</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	a{
+		text-decoration:none;
+		color:#000;
+		padding:5px;
+		position:absolute;
+		background:#FFF;
+		border:1px solid #000;
+		left:0;
+		filter:alpha(opacity:50);
+		opacity:0.5;
+	}
+	body{
+		background:url(bg.png) no-repeat;
+		background-size:100%;
+	}
+	#div1{
+		height:280px;
+		width:100%;
+		margin-top:154px;
+	}
+	#div2{
+		height:280px;
+		width:530px;
+		margin:0 auto;
+		position:relative;
+		filter:alpha(opacity:50);
+		opacity:0.5;
+		overflow:hidden;
+	}
+	.aCss{
+		filter:alpha(opacity:100);
+		opacity:1;
+	}
+</style>
+<script src="function.js"></script>
+<script>
+	window.onload=function(){
+		var aSpeed=[10,4,6,5,8];
+		var oDiv=document.getElementById('div2');
+		var aA=oDiv.getElementsByTagName('a');
+		var i=0;
+		var time=null;
+		var pos=0;
+		var iLeft=0;
+		var arr=[];
+		var arr1=[];
+		for(i=0;i<aA.length;i++){
+			aA[i].index=i;
+			aA[i].style.bottom=-aA[i].offsetHeight+'px';
+			arr.push(aA[i]);
+			/*aA[i].onmouseover=function(){
+				this.className='aCss';
+			}
+			aA[i].onmouseout=function(){
+				this.className='';
+			}*/
+		}
+		function fn(obj){
+			obj.style.bottom=-obj.offsetHeight+'px';
+			arr.push(obj);
+			arr1.splice(obj.index,1);
+		};
+		clearInterval(time);
+		time=setInterval(function(){
+			if(arr[pos]){
+				pos=Math.round(Math.random()*(arr.length-1));
+				var index=arr[pos].index;document.title=pos+','+index;
+				arr.splice(pos,1);
+				arr1[index]=aA[index];
+				// arr1.push(arr[pos]);
+				var iSpeed=Math.round(Math.random()*(aSpeed.length-1));
+				iLeft=oDiv.offsetWidth-aA[index].offsetWidth;
+				iLeft=Math.round(Math.random()*iLeft);
+				aA[index].style.left=iLeft+'px';
+				startMove1(aA[index],{bottom:(oDiv.offsetHeight+aA[index].offsetWidth)},aSpeed[iSpeed],fn);
+				for(i=0;i<arr1.length;i++){
+					if(arr1[i]){
+						arr1[i].onmouseover=function(){
+							this.className='aCss';
+							clearInterval(this.timer);
+						}
+						arr1[i].onmouseout=function(){
+							this.className='';
+							startMove1(this,{bottom:(oDiv.offsetHeight+this.offsetWidth)},this.speed,fn);
+						}
+					}
+				}		
+			}
+				
+		},300);
+	}
+</script>
+</head>
+<body>
+	<div id="div1">
+		<div id="div2">
+			<a href="#">蔡雅玲</a>
+			<a href="#">伍洋</a>
+			<a href="#">蔡丽娟</a>
+			<a href="#">董小姐</a>
+			<a href="#">周美丹</a>
+			<a href="#">胡潆予</a>
+			<a href="#">刘北京</a>
+			<a href="#">岳平</a>
+			<a href="#">华仔</a>
+			<a href="#">黄琦</a>
+			<a href="#">新叶工作室</a>
+			<a href="#">634</a>
+			<a href="#">计科13102班</a>
+			<a href="#">湖南文理</a>
+			<a href="#">澧县</a>
+		</div>
+	</div>
+</body>
+</html>

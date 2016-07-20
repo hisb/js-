@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>多图片展开收缩（布局转换）</title>
+<style>
+	*{ margin:0; padding:0; }
+	/* img{width:180px;height:auto;} */
+	#ul1{
+		margin:50px auto;
+	}
+	#ul1 li{
+		float:left;
+		width:180px;
+		height:135px;
+		margin:5px;
+		list-style:none;
+		background-size:180px;
+		z-index:1;
+		border:none;
+	}
+</style>
+<script src="move.js"></script>
+<script>
+	window.onload=function(){
+		var oUl=document.getElementById('ul1');
+		var aLi=oUl.getElementsByTagName('li');
+		var i=0;
+		var minIndex=2;
+		oUl.style.width=(aLi[0].offsetWidth+10)*3+'px';
+		for(i=0;i<aLi.length;i++){
+			aLi[i].style.backgroundImage='url(img/'+(i+1)+'.jpg)';
+			aLi[i].style.top=aLi[i].offsetTop+'px';
+			aLi[i].style.left=aLi[i].offsetLeft+'px';
+		}
+		for(i=0;i<aLi.length;i++){
+			aLi[i].style.position='absolute';
+			aLi[i].style.margin=0;
+		}
+		for(i=0;i<aLi.length;i++){
+			aLi[i].onmouseover=function(){
+				this.style.zIndex=minIndex++;
+				startMove2(this,{width:250,height:187,marginLeft:-35,marginTop:-26,backgroundSize:250});
+			}
+			aLi[i].onmouseout=function(){
+				startMove2(this,{width:180,height:135,marginLeft:0,marginTop:0,backgroundSize:180});
+			}
+		}
+	}
+</script>
+</head>
+<body>
+<div>
+	<ul id="ul1">
+		<li><!-- <img src='img/1.jpg' /> --></li>
+		<li><!-- <img src="img/2.jpg" /> --></li>
+		<li><!-- <img src="img/3.jpg" /> --></li>
+		<li><!-- <img src="img/4.jpg" /> --></li>
+		<li><!-- <img src="img/5.jpg" /> --></li>
+		<li><!-- <img src="img/6.jpg" /> --></li>
+		<li><!-- <img src="img/7.jpg" /> --></li>
+		<li><!-- <img src="img/8.jpg" /> --></li>
+		<li><!-- <img src="img/9.jpg" /> --></li>
+	</ul>
+</div>
+</body>
+</html>

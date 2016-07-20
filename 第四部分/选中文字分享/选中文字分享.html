@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>选中文字分享</title>
+<style>
+	#text{
+		width:400px;
+		margin:50px;
+	}
+	#img{
+		position:absolute;
+		display:none;
+	}
+</style>
+
+<script>
+	window.onload=function(){
+		var oText=document.getElementById('text');
+		var oImg=document.getElementById('img');
+		function getChoseContent(){
+			if(document.selection){
+				return document.selection.createRange().text();
+			}else{
+				return document.getSelection().toString();
+			}
+		};
+		oText.onmouseup=function(eve){
+			var oEvent=eve||window.event;
+			if(getChoseContent().length>=10){
+				oImg.style.display='block';
+				oImg.style.top=oEvent.clientY+'px';
+				oImg.style.left=oEvent.clientX+'px';
+			}else{
+				oImg.style.display='none';
+			}
+			
+		};
+		oText.onclick=function(eve){//阻止冒泡
+			var oEvent=eve||event;
+			oEvent.cancelBubble=true;
+		};
+
+		document.onclick=function(){
+			oImg.style.display='none';
+		};
+		oImg.onclick=function(){
+			window.location.href="file:///E:/%E8%94%A1%E9%9B%85%E7%8E%B2/%E5%89%8D%E7%AB%AF/JS%E5%AE%9E%E6%88%98%E6%95%88%E6%9E%9C/%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86/%E9%80%89%E4%B8%AD%E6%96%87%E5%AD%97%E5%88%86%E4%BA%AB/%E5%88%86%E4%BA%AB%E6%A1%86.html"
+		};
+			
+	}
+</script>
+<!-- <script type="text/javascript" src="connect.js"></script> -->
+</head>
+<body>
+	<p id="text">
+		网易娱乐3月18日报道 今日，唐嫣的新版紫霞仙子的造型曝光，从发型和服饰有点向朱茵版紫霞靠拢。“我的意中人是个盖世英雄，我知道有一天他会在一个万众瞩目的情况下出现，身披金甲圣衣，脚踏七色云彩来娶我……”21年前《大话西游》中紫霞仙子这句经典台词将会在最新版《大话西游3》中再度重现，至尊宝由韩庚饰演，而紫霞则花落唐嫣唐嫣紫霞仙子造型曝光后，不少网友都表示难以取代朱茵版的紫霞仙子，“朱茵无可取代”“两个本来就没啥可比性，虽然平心而论唐嫣也挺好看的”“嚼不嚼口香糖都不期待”“朱茵和唐嫣灵气差的不是一点半点”。
+	</p>
+	<div id="img"><img src="share.gif" lat="#" /></div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>操作iframe</title>
+<script>
+	window.onload=function(){
+		var oBtn=document.getElementById('btn');
+		var oIframe=document.getElementById('ifra');
+		oBtn.onclick=function(){
+			oIframe.contentWindow.document.getElementById('name').style.color='red'; 
+			//window.parent.document.....父层元素
+			//window.top.document......顶层，谷歌在服务器环境下才有用
+			//IE下iframe.onload事件只能用绑定
+		}
+	}
+</script>
+</head>
+<body>
+	<input type="button" value='变' id="btn" />
+	<iframe src="iframe.html" id="ifra"></iframe>
+</body>
+</html>

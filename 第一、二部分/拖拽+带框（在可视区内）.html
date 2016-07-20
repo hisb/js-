@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>拖拽带框</title>
+<style>
+	#div1{
+		height:100px;
+		width:100px;
+		background:red;
+		
+	}
+	div{
+		position:absolute;
+		top:0;
+		left:0;
+	}
+	.borderCss{
+		border:1px dashed #999;
+	}
+</style>
+<script>
+	window.onload=function(){
+		var oDiv=document.getElementById('div1');
+		var disx=0;
+		var disy=0;
+
+		oDiv.onmousedown=function(ev){
+			var oEvent=ev||event;
+			var newDiv=document.createElement('div');
+			newDiv.style.width=oDiv.offsetWidth-2+'px';
+			newDiv.style.height=oDiv.offsetHeight-2+'px';
+			newDiv.style.top=oDiv.offsetTop+'px';
+			newDiv.style.left=oDiv.offsetLeft+'px';
+			newDiv.className='borderCss';
+			document.body.appendChild(newDiv);
+			disx=oEvent.clientX-oDiv.offsetLeft;
+			disy=oEvent.clientY-oDiv.offsetTop;
+			document.onmousemove=function(ev){
+				var oEvent=ev||event;
+				var tb=oEvent.clientY-disy;
+				var lr=oEvent.clientX-disx;
+				if(lr<0) lr=0;
+				else if(lr>document.documentElement.clientWidth-oDiv.offsetWidth) lr=document.documentElement.clientWidth-oDiv.offsetWidth;
+				if(tb<0) tb=0;
+				else if(tb>document.documentElement.clientHeight-oDiv.offsetHeight) tb=document.documentElement.clientHeight-oDiv.offsetHeight;
+				newDiv.style.top=tb+'px';
+				newDiv.style.left=lr+'px';
+			};
+			document.onmouseup=function(){
+				document.onmousemove=null;
+				document.onmouseup=null;
+				oDiv.style.top=newDiv.offsetTop+'px';
+				oDiv.style.left=newDiv.offsetLeft+'px';
+				document.body.removeChild(newDiv);
+
+			}
+		};
+		
+	}
+</script>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+</html>

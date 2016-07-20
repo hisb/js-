@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>QQ幻灯片</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+		color:#FFF;
+	}
+	ul{
+		list-style:none;
+	}
+	#ul1{
+		position:relative;
+		z-index:1;
+	}
+	#ul1>li{
+		position:absolute;
+		top:0;
+		z-index:1;
+	}
+	#div1{
+		height:330px;
+		width:660px;
+		margin:100px auto;
+		position:relative;
+	}
+	#ul2{
+		position:relative;
+		z-index:2;
+	}
+	p{
+		padding-left:40px;
+		position:absolute;
+		left:5px;
+		bottom:60px;
+		z-index:2;
+	}
+	#ul2 li{
+		float:left;
+		height:40px;
+		padding:2px;
+		margin-right:5px;
+		background:#FFF;
+		
+	}
+	#ul2 img{
+		height:40px;
+		width:68px;
+	}
+	#div2{
+		overflow: hidden;
+		position:absolute;
+		left:10px;
+		bottom:10px;
+	}
+	#div3{
+		position:absolute;
+		right:30px;
+		bottom:15px;
+		z-index:2;
+	}
+	#div3 a{
+		float:left;
+		height:38px;
+		width:38px;
+	}
+	#left{
+		background:url(img/btn.gif) no-repeat 0 0;
+	}
+	#right{
+		background:url(img/btn.gif) no-repeat right 0;
+	}
+	
+	.borderCss1{
+		filter:alpha(opacity=50);
+		opacity:0.5;
+	}
+	.borderCss{
+		filter:alpha(opacity=100);
+		opacity:1;
+	}
+</style>
+<script src="function.js"></script>
+<script>
+	window.onload=function(){
+		var arr=['第一张','第二张','第三张','第四张','第五张','第六张','第七张','第八张','第九张','第十张','第十一张','第十二张','第十三张','第十四张'];
+		var oDiv=document.getElementById('div1');
+		var oUl1=document.getElementById('ul1');
+		var oUl2=document.getElementById('ul2');
+		var oDiv2=document.getElementById('div2');
+		var oTxt=document.getElementById('text');
+		var oLeft=document.getElementById('left');
+		var oRight=document.getElementById('right');
+		var length=14;
+		var i=0;
+		var minIndex=2;
+		var timer=null;
+		var pos=0;
+		var num=0;
+		/*添加Li和img节点*/
+		for(i=1;i<=length;i++){
+			var oLi=document.createElement('li');
+			var oImg=document.createElement('img');
+			var oLi1=document.createElement('li');
+			var oImg1=document.createElement('img');
+			oImg.src='img/pic_'+i+'.jpg';
+			oUl1.appendChild(oLi);
+			oLi.appendChild(oImg);
+			oImg1.src='img/ico_'+i+'.jpg';
+			oLi1.className='borderCss1';
+			oUl2.appendChild(oLi1);
+			oLi1.appendChild(oImg1);
+		}
+		// 取节点和初始化
+		var aLi1=oUl1.getElementsByTagName('li');
+		var aLi2=oUl2.getElementsByTagName('li');
+		aLi2[0].className='borderCss';
+		oTxt.innerHTML=arr[0];
+		oLeft.className='borderCss1';
+		oRight.className='borderCss';
+		var oldLi=aLi2[0];
+		var liWidth=aLi2[0].offsetWidth+5/*;每个Li的宽度加上margin*/
+		oUl2.style.width=liWidth*length+'px';
+		oDiv2.style.width=liWidth*7+'px';
+		/*小图片窗口的点击事件*/
+		for(i=0;i<length;i++){
+			aLi2[i].index=i;
+			aLi2[i].onclick=function(){
+				pos=this.index;
+				tab();
+			};
+		}
+
+		oRight.onclick=function(){
+			num++;
+			fn1();
+			startMove(oUl2,'left',-num*liWidth);
+		};
+		oLeft.onclick=function(){
+			num--;
+			fn1();
+			startMove(oUl2,'left',-num*liWidth);
+		};
+		oDiv.onmouseover=function(){
+			clearInterval(timer);
+		}
+		oDiv.onmouseout=function(){
+			timer=setInterval(fn,2000);
+		}
+		timer=setInterval(fn,2000);
+		/*自动轮播函数*/
+		function fn(){
+			pos++;
+			if(pos-num==7) {
+				startMove(oUl2,'left',-(pos-6)*liWidth);
+				oLeft.className='borderCss';
+				num++;
+				if(pos==length) {
+					pos=0;
+					num=0;
+					startMove(oUl2,'left',0);
+				}
+				fn1();
+			}else{
+				if(num==0) startMove(oUl2,'left',0);
+				else
+					startMove(oUl2,'left',-num*liWidth);
+				fn1();
+			}
+			tab();
+		};
+		function tab(){
+			aLi2[pos].className='borderCss';
+			oldLi.className='borderCss1';
+			oldLi=aLi2[pos];
+			aLi1[aLi2[pos].index].style.zIndex=minIndex++;
+			oTxt.innerHTML=arr[aLi2[pos].index];
+		};
+		function fn1(){
+			if(num>=7) {
+				num=7;
+				oLeft.className='borderCss';
+				oRight.className='borderCss1';
+			}
+			if(num<=0){
+				num=0;
+				oLeft.className='borderCss1';
+				oRight.className='borderCss';
+			}
+		};
+	};
+</script>
+</head>
+<body>
+<div id="div1">
+	<ul id="ul1">
+	</ul>
+	<p id='text'>fhsafhsiaov</p>
+	<div id="div2"><ul id="ul2"></ul></div>
+	<div id="div3"><a id="left" href="#"></a><a id="right" href="#" ></a></div>
+</div>
+</body>
+</html>

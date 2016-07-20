@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>对象引用</title>
+<script>
+	var obj1={
+		a:10
+	};
+	var obj3={
+		a:{
+			b:10
+		}
+	};
+	function qianCopy(obj){ /*浅拷贝*/
+		var newObj={};
+		for(var attr in obj){
+			newObj[attr]=obj[attr];
+		}
+		return newObj;
+	};
+	function deepCopy(obj){
+		if(typeof obj != 'object')
+			return obj;
+		var newObj={};
+		for(var attr in obj){
+			newObj[attr]=deepCopy(obj[attr]);
+		}
+		return newObj;
+
+	}
+	var obj2=qianCopy(obj1);
+	obj2.a=20;
+	/*alert(obj2.a);
+	alert(obj1.a);*/
+	var obj4=deepCopy(obj3);
+	obj4.a.b=20;
+	alert(obj4.a.b);
+	alert(obj3.a.b);
+</script>
+</head>
+<body>
+</body>
+</html>

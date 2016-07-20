@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>全屏相册展示</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	body{
+		overflow:hidden;
+	}
+	#image{
+		width:100%;
+		z-index:1;
+	}
+	#image img{
+		width:100%;
+	}
+	#view{
+		height:435px;
+		width:649px;
+		border:1px solid #000;
+		background:url(img/layer.png) no-repeat;
+		border-radius:10px;
+		position:absolute;
+		top:100px;
+		left:50%;
+		margin-left:-324px;
+		z-index:2;
+	}
+	#view a{
+		position:absolute;
+		top:0;
+		right:0;
+		height:25px;
+		width:25px;
+	}
+	#view ul{
+		list-style:none;
+		width:640px;
+		margin:30px auto 0;
+	}
+	#view ul li{
+		float:left;
+		width:144px;
+		margin:8px;
+	}
+	#view ul li img{
+		height:96px;
+		width:138px;
+		border:3px solid #FFF;
+	}
+	.foot{
+		height:62px;
+		width:100%;
+		background:#1E1E1E;
+		position:absolute;
+		bottom:0;
+		filter:alpha(opacity:80);
+		opacity:0.8;
+	}
+	.foot div{
+		position:absolute;
+	}
+	.left img,.right img{
+		width:150px;
+		height:94px;
+	}
+	.left,.right{
+		width:104px;
+		height:79px;
+		overflow:hidden;
+		border:2px solid #FFF;
+	}
+	.left{
+		bottom:15px;
+		left:30px;
+	}
+	.right{
+		bottom:15px;
+		right:30px;
+	}
+	#leftIcon,#rightIcon,#album{
+		height:44px;
+		width:44px;
+		bottom:10px;
+	}
+	#leftIcon{
+		right:220px;
+	}
+	#rightIcon{
+		right:170px;
+	}
+	#album{
+		right:270px;
+	}
+	.text{
+		bottom:20px;
+		left:200px;
+		color:#FFF;
+		font-size:20px;
+	}
+</style>
+<script src="function.js"></script>
+<script>
+	window.onload=function(){
+		var aLi=document.getElementsByTagName('li');
+		var oBigImg=document.getElementById('image').getElementsByTagName('img')[0];
+		var oAlbum=document.getElementById('album');
+		var oView=document.getElementById('view');
+		var oA=oView.getElementsByTagName('a')[0];
+		var oLeftImg=document.getElementById('left');
+		var oRightImg=document.getElementById('right');
+		var oLeftIcon=document.getElementById('leftIcon');
+		var oRightIcon=document.getElementById('rightIcon');
+		var i=1;
+		var pos=1;
+		var rightPos=pos+1;
+		var leftPos=aLi.length;
+		oView.style.display='block';
+		oAlbum.style.display='none';
+		for(i=0;i<aLi.length;i++){
+			aLi[i].index=i;
+			aLi[i].onclick=function(){
+				pos=this.index+1;
+				leftPos=pos-1;
+				rightPos=pos+1;
+				oBigImg.src='img/'+pos+'.jpg';
+				oLeftImg.src='img/'+leftPos+'.jpg';
+				oRightImg.src='img/'+rightPos+'.jpg';
+			};
+		}
+		function fn(){
+			if(pos==aLi.length+1)pos=1;
+			if(pos==0) pos=aLi.length;
+			leftPos=pos-1;
+			rightPos=pos+1;
+			if(leftPos==0) leftPos=aLi.length;
+			if(rightPos==aLi.length+1) rightPos=1;
+			oBigImg.src='img/'+pos+'.jpg';
+			oLeftImg.src='img/'+leftPos+'.jpg';
+			oRightImg.src='img/'+rightPos+'.jpg';
+		}
+		oAlbum.onclick=function(){
+			oView.style.display='block';
+			this.style.display='none';
+		};
+		oA.onclick=function(){
+			oView.style.display='none';
+			oAlbum.style.display='block';
+		};
+		oRightIcon.onclick=function(){
+			pos++;
+			fn();
+		};
+		oLeftIcon.onclick=function(){
+			pos--;
+			fn();
+		};
+		oLeftImg.onclick=function(){
+			pos=leftPos;
+			fn();
+		};
+		oRightImg.onclick=function(){
+			pos=rightPos;
+			fn();
+		};
+	}
+</script>
+</head>
+<body>
+<div id="image"><img src="img/1.jpg" /></div>
+<div id="view">
+	<p></p>
+	<ul>
+		<li><img src="img/1.jpg"/></li>
+		<li><img src="img/2.jpg"/></li>
+		<li><img src="img/3.jpg"/></li>
+		<li><img src="img/4.jpg"/></li>
+		<li><img src="img/5.jpg"/></li>
+		<li><img src="img/6.jpg"/></li>
+		<li><img src="img/7.jpg"/></li>
+		<li><img src="img/8.jpg"/></li>
+		<li><img src="img/9.jpg"/></li>
+		<li><img src="img/10.jpg"/></li>
+		<li><img src="img/11.jpg"/></li>
+		<li><img src="img/12.jpg"/></li>
+	</ul>
+	<a href="#"></a>
+</div>
+<div class="foot">
+	<div class="text">634的大人物</div>
+	<div class="left"><img id="left" src="img/12.jpg" /></div>
+	<div class="right"><img id="right" src="img/2.jpg" /></div>
+	<div id='leftIcon'><img src="img/back_dull.png" /></div>
+	<div id='rightIcon'><img src="img/forward_dull.png" /></div>
+	<div id="album"><img src="img/album.png" /></div>
+</div>
+</body>
+</html>

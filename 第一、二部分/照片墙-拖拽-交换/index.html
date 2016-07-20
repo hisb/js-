@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>照片墙-拖拽-交换</title>
+<style>
+	*{margin:0;padding:0;}
+	img{
+		width:180px;
+	}
+	div{
+		width:570px;
+		margin:50px auto;
+	}
+	#ul1{
+		width:570px;
+	}
+	#ul1 li{
+		list-style:none;
+		float:left;
+		width:180px;
+		height:135px;
+		margin:5px;
+	}
+	.borderCss{
+		border:1px dashed #F40;
+	}
+</style>
+<script src='move.js'></script>
+<script>
+	window.onload=function(){
+		var oUl=document.getElementById('ul1');
+		var aLi=oUl.getElementsByTagName('li');
+		var aPos=[];
+		var i=0;
+		var minIndex=2;
+		/*布局转换32-41行*/
+		for(i=0;i<aLi.length;i++){
+			aPos[i]={left:aLi[i].offsetLeft,top:aLi[i].offsetTop};
+		}
+		for(i=0;i<aLi.length;i++){
+			aLi[i].style.position='absolute';
+			aLi[i].style.left=aPos[i].left+'px';
+			aLi[i].style.top=aPos[i].top+'px';
+			aLi[i].style.margin=0;
+			aLi[i].index=i;
+		}
+		/*图片的拖拽44-62行*/
+		for(i=0;i<aLi.length;i++){
+			aLi[i].onmousedown=function(ev){
+				var oEvent=ev||event;
+				var disX=oEvent.clientX-this.offsetLeft;
+				var disY=oEvent.clientY-this.offsetTop;
+				var obj=this;
+				var changeObj=null;
+				this.style.zIndex=minIndex++;
+				document.onmousemove=function(ev){
+					var oEvent=ev||event;
+					obj.style.top=oEvent.clientY-disY+'px';
+					obj.style.left=oEvent.clientX-disX+'px';
+					for(var j=0;j<aLi.length;j++){
+						aLi[j].className='';
+					}
+					changeObj=getMinDis(obj);
+					changeObj.className='borderCss';
+				}
+				document.onmouseup=function(){
+					document.onmousemove=null;
+					document.onmouseup=null;
+					var changeOld=getMinDis(obj);
+					if(changeObj){
+						var oldIndex=obj.index;
+						obj.style.zIndex=minIndex++;
+						changeOld.style.zIndex=minIndex++;
+						/*changeObj.style.top=aPos[obj.index].top+'px';
+						changeObj.style.left=aPos[obj.index].left+'px';
+						obj.style.top=aPos[changeObj.index].top+'px';
+						obj.style.left=aPos[changeObj.index].left+'px';*/
+						startMove2(obj,aPos[changeOld.index]);
+						startMove2(changeOld,aPos[obj.index]);
+						changeObj.className='';
+						obj.index=changeObj.index;
+						changeOld.index=oldIndex;
+					}else{
+						// obj.style.top=aPos[obj.index].top+'px';
+						// obj.style.left=aPos[obj.index].left+'px';
+						startMove2(obj,aPos[obj.index]);
+					}
+				}
+				clearInterval(obj.timer);
+				return false;
+			};
+		}
+		/*碰撞检测74-87行*/
+		function pengCheck(obj1,obj2){
+			var l1=obj1.offsetLeft;
+			var r1=obj1.offsetLeft+obj1.offsetWidth;
+			var t1=obj1.offsetTop;
+			var b1=obj1.offsetTop+obj1.offsetHeight;
+			var l2=obj2.offsetLeft;
+			var r2=obj2.offsetLeft+obj2.offsetWidth;
+			var t2=obj2.offsetTop;
+			var b2=obj2.offsetTop+obj2.offsetHeight;
+			if(r1<l2||b1<t2||l1>r2||t1>b2)
+				return false;
+			else
+				return true;
+		};
+		/*计算距离*/
+		function getDis(obj1,obj2){
+			var a=obj1.offsetLeft-obj2.offsetLeft;
+			var b=obj1.offsetTop-obj2.offsetTop;
+			var dis=Math.sqrt(a*a+b*b);
+			return dis;
+		}
+		/*取得最小距离*/
+		function getMinDis(obj){
+			var minDis=99999999;
+			var minIndex=-1;
+			for(i=0;i<aLi.length;i++){
+				if(obj==aLi[i]) continue;
+				if(pengCheck(obj,aLi[i])){
+					if(minDis>getDis(obj,aLi[i]))
+					{
+						minIndex=i;
+					}
+				}
+			}
+			if(minIndex==-1) return false;
+			else return aLi[minIndex];
+			
+		};
+	};
+</script>
+</head>
+<body>
+<div>
+	<ul id="ul1">
+		<li><img src="img/1.jpg"/></li>
+		<li><img src="img/2.jpg"/></li>
+		<li><img src="img/3.jpg"/></li>
+		<li><img src="img/4.jpg"/></li>
+		<li><img src="img/5.jpg"/></li>
+		<li><img src="img/6.jpg"/></li>
+		<li><img src="img/7.jpg"/></li>
+		<li><img src="img/8.jpg"/></li>
+		<li><img src="img/9.jpg"/></li>
+	</ul>
+</div>
+</body>
+</html>

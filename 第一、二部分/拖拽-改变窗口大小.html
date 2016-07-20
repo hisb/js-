@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>拖拽-改变窗口大小</title>
+<style>
+	#div1{
+		height:10px;
+		width:10px;
+		background:red;
+		position:absolute;
+		right:0;
+		bottom:0;
+		cursor: e-resize;
+	}
+	#div2{
+		height:200px;
+		width:200px;
+		background:#999;
+		position:relative;
+	}
+	
+	
+</style>
+<script>
+	window.onload=function(){
+		var oDiv=document.getElementById('div1');
+		var oDiv1=document.getElementById('div2');
+		var disx=0;
+		var disy=0;
+
+		oDiv.onmousedown=function(ev){
+			var oEvent=ev||event;
+			disx=oEvent.clientX-oDiv.offsetLeft;
+			disy=oEvent.clientY-oDiv.offsetTop;
+			document.onmousemove=function(ev){
+				var oEvent=ev||event;
+				var tb=oEvent.clientY-disy;
+				var lr=oEvent.clientX-disx;
+				/*if(lr<0) lr=0;
+				else if(lr>document.documentElement.clientWidth-oDiv.offsetWidth) lr=document.documentElement.clientWidth-oDiv.offsetWidth;
+				if(tb<0) tb=0;
+				else if(tb>document.documentElement.clientHeight-oDiv.offsetHeight) tb=document.documentElement.clientHeight-oDiv.offsetHeight;*/
+				oDiv1.style.height=tb+oDiv.offsetHeight+'px';
+				oDiv1.style.width=lr+oDiv.offsetWidth+'px';
+			};
+			document.onmouseup=function(){
+				document.onmousemove=null;
+				document.onmouseup=null;
+
+			}
+		};
+		
+	}
+</script>
+</head>
+<body>
+<div id="div2">
+	<div id="div1"></div>
+</div>
+</body>
+</html>

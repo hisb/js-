@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+	function setCookie(name,value,iDay){
+		var oDate=new Date();
+		oDate.setDate(oDate.getDate()+iDay);
+		document.cookie=name+'='+value+';expires='+oDate;
+	};
+	function getCookie(name){
+		var arr=document.cookie.split('; ')
+		var i;
+		for(i=0;i<arr.length;i++){
+			var arr1=arr[i].split('=');
+			if(arr1[0]==name)
+				return arr1[1];
+		}
+		return '';
+	};
+	function removeCookie(name){
+		setCookie(name,'1',-1);
+	};
+	window.onload=function(){
+		var oForm=document.getElementById('form1');
+		var oText=document.getElementById('text1');
+		var oBtn=document.getElementById('btn');
+		var oBtnClear=document.getElementById('clearText');
+		oForm.onsubmit=function(){//只有form才有提交事件
+			setCookie('username',oText.value,5);
+		}
+		oText.value=getCookie('username');
+		oBtnClear.onclick=function(){
+			removeCookie('username');
+			oText.value='';
+		}
+	};
+</script>
+</head>
+<body>
+	<form id='form1' action="//http:www.baidu.com">
+		用户名：<input type="text" id="text1" />
+		密码：<input type="password" />
+		<input type="submit" value="提交" id="btn" />
+		<a href="javascript:;" id="clearText">清楚记录 </a>
+	</form>
+</body>
+</html>

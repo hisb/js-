@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+	#text{
+		height:300px;
+		width:500px;
+		display:block;
+		margin-bottom:20px;
+	}
+	#btn1{
+		height:20px;
+		width:400px;
+	}
+	#btn2{
+
+	}
+</style>
+<script>
+	window.onload=function(){
+		var oText=document.getElementById('text');
+		var oBtn1=document.getElementById('btn1');
+		var oBtn2=document.getElementById('btn2');
+		oBtn2.onclick=function(){
+			oText.value+=oBtn1.value;
+			oBtn1.value='';
+		}
+		oBtn1.onkeydown=function(ev){
+			var oEvent=ev||event;
+			if(oEvent.keyCode==13 && oEvent.ctrlKey){//enter键
+				oText.value+=oBtn1.value+'\n';
+				oBtn1.value='';
+			}
+		}
+	}
+</script>
+</head>
+<body>
+<textarea type="text" id="text"></textarea>
+<input type="text" id="btn1" />
+<input type="button" id="btn2" value="提交" />
+</body>
+</html>

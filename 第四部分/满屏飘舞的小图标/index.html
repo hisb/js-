@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>满屏飘舞的小图标</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	body{
+		background:#7A4B94;
+	}
+	.div1{
+		position:absolute;
+		top:0;
+		width:100%;
+		height:50px;
+		line-height:50px;
+		background:#413847;
+		color:#FFF;
+		text-align:center;
+	}
+</style>
+<script src="function.js"></script>
+<script>
+	window.onload=function(){
+		var size=120;
+		var time=null;
+		function fn(disX,disY){
+			var r=Math.round(Math.random()*size/2);//随机产生半径
+				var deg=Math.round(Math.random()*360);//随机产生角度
+				var iTop=parseInt(Math.sin(deg)*r+disY);
+				var iLeft=parseInt(Math.cos(deg)*r+disX);
+				var oImg=document.createElement('img');
+				oImg.style.position='absolute';
+				oImg.style.top=disY+'px';
+				oImg.style.left=disX+'px';
+				oImg.style.transform='rotate('+deg+'deg)';
+				var imgSize=Math.round(Math.random()*15+25);
+				oImg.style.width=imgSize+'px';
+				var pos=Math.round(Math.random()*4);
+				oImg.src='img/'+pos+'.gif';
+				/*if(iTop<0) iTop=0;
+				else if(iTop>document.clientHeight) iTop=document.clientHeight-oImg.offsetHeight;
+				if(iLeft<0) iLeft=0;
+				else if(iLeft>document.clientWidth) iLeft=document.clientWidth-oImg.offsetWidth;*/
+				startMove2(oImg,{top:iTop,left:iLeft});
+				document.body.appendChild(oImg);
+		}
+		document.onmousedown=function(ev){
+			var oEvent=ev||event;
+			var disX=oEvent.clientX;
+			var disY=oEvent.clientY;
+			var minY=disY-size/2;
+			clearInterval(time);
+			time=setInterval(function(){
+				fn(disX,disY);
+			},100);
+			document.onmousemove=function(ev){
+				clearInterval(time);
+				var oEvent=ev||event;
+				var x=oEvent.clientX;
+				var y=oEvent.clientY;
+				var dis=10;
+				fn(x,y);
+				return false;
+			};
+			return false;
+		};
+		document.onmouseup=function(){
+			clearInterval(time);
+			document.onmousemove=null;
+		};
+	}
+</script>
+</head>
+<body>
+<div class="div1">点击屏幕或者拖动，让小图标飞舞起来~~~</div>
+</body>
+</html>

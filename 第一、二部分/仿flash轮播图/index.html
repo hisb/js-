@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>仿flash轮播图</title>
+<style>
+	*{margin:0;padding:0;}
+	ul{list-style-type:none;}
+	a{text-decoration:none;}
+	.content{width:500px;margin:50px auto;}
+	#big{height:332px;width:500px;overflow: hidden;position:relative;}
+	#big ul{position:relative;z-index:-1;height:332px;}
+	#big ul li{position:absolute;top:0;left:0;height:332px;overflow: hidden;}
+	#small{width:480px;height:99px;z-index:2;overflow:hidden;border:10px solid #ccc;position:relative;}
+	#small ul{height:99px;position:absolute;top:0;left:0;}
+	#small ul li{float:left;height:99px;border-right:15px solid #ccc;z-index:-1;filter:alpha(opacity=50);opacity:0.5;}
+
+	#left,#right{width:40px;height:40px;border:1px solid #FFF;border-radius:10px;background:#FFF;font-size:22px;font-weight:bold;text-align:center;line-height:40px;position:absolute;top:50%;margin-top:-20px;filter:alpha(opacity=0);opacity:0;z-index:3;}
+	#left{left:10px;}
+	#right{right:10px;}
+	#leftDiv,#rightDiv{width:250px;height:332px;position:absolute;top:0;z-index:2;}
+	#leftDiv{left:0;}
+	#rightDiv{right:0;}
+</style>
+<script src="move.js"></script>
+<script>
+	window.onload=function(){
+		var oLeft=document.getElementById('left');
+		var oRight=document.getElementById('right');
+		var oRightDiv=document.getElementById('rightDiv');
+		var oLeftDiv=document.getElementById('leftDiv');
+		var oSmall=document.getElementById('small');
+		var aSmallLi=oSmall.getElementsByTagName('li');
+		var oBig=document.getElementById('big');
+		var aBigLi=oBig.getElementsByTagName('li');
+		var i=0;
+		var j=0;
+		var iOld=0;
+		var minIndex=2;
+		var timer=null;
+		var oUl=oSmall.getElementsByTagName('ul')[0];
+		oUl.style.width=aSmallLi.length*aSmallLi[0].offsetWidth+'px';
+
+		clearInterval(timer);
+		timer=setInterval(function(){
+			iOld++;
+			if(iOld==aSmallLi.length)
+				iOld=0;
+			tab();
+		},3000);
+		
+		// 左右按钮移动事件
+		oRight.onmouseover=oRightDiv.onmouseover=function(){
+			startMove(oRight,'opacity',100);
+		};
+		oRight.onmouseout=oRightDiv.onmouseout=function(){
+			startMove(oRight,'opacity',0);
+		};
+		oLeft.onmouseover=oLeftDiv.onmouseover=function(){
+			startMove(oLeft,'opacity',100);
+		};
+		oLeft.onmouseout=oLeftDiv.onmouseout=function(){
+			startMove(oLeft,'opacity',0);
+		};
+		for(i=0;i<aSmallLi.length;i++){
+			aSmallLi[i].index=i;
+			aSmallLi[i].onmouseover=function(){
+				startMove(this,'opacity',100);
+			};
+			aSmallLi[i].onmouseout=function(){
+				if(this.index!=iOld)
+					startMove(this,'opacity',50);
+			};
+			aSmallLi[i].onclick=function(){
+				if(this.index==iOld)return;
+				iOld=this.index;
+				tab();
+				/*for(j=0;j<aSmallLi.length;j++)
+					startMove(aSmallLi[j],'opacity',50);
+				startMove(this,'opacity',100);
+				aBigLi[this.index].style.zIndex=minIndex++;
+				aBigLi[this.index].style.height=0;
+				startMove(aBigLi[this.index],'height',oBig.offsetHeight);
+				if(iOld==0){
+					oUl.style.left=0;
+				}else if(iOld==(aSmallLi.length-1)){
+					//oUl.style.left=-(iOld-2)*aSmallLi[0].offsetWidth+'px';
+					startMove(oUl,'left',-(iOld-2)*aSmallLi[0].offsetWidth)
+				}else{
+					//oUl.style.left=-(iOld-1)*aSmallLi[0].offsetWidth+'px';
+					startMove(oUl,'left',-(iOld-1)*aSmallLi[0].offsetWidth)
+				}*/
+				
+			};
+			function tab(){
+				for(j=0;j<aSmallLi.length;j++)
+					startMove(aSmallLi[j],'opacity',50);
+				startMove(aSmallLi[iOld],'opacity',100);
+				aBigLi[iOld].style.zIndex=minIndex++;
+				aBigLi[iOld].style.height=0;
+				startMove(aBigLi[iOld],'height',oBig.offsetHeight);
+				if(iOld==0){
+					//oUl.style.left=0;
+					startMove(oUl,'left',0);
+				}else if(iOld==(aSmallLi.length-1)){
+					//oUl.style.left=-(iOld-2)*aSmallLi[0].offsetWidth+'px';
+					startMove(oUl,'left',-(iOld-2)*aSmallLi[0].offsetWidth)
+				}else{
+					//oUl.style.left=-(iOld-1)*aSmallLi[0].offsetWidth+'px';
+					startMove(oUl,'left',-(iOld-1)*aSmallLi[0].offsetWidth)
+				}
+			};
+			// 左右按钮点击事件
+			oLeft.onclick=function(){
+				iOld--;
+				if(iOld==-1)
+					iOld=aSmallLi.length-1;
+				tab();
+			};
+			oRight.onclick=function(){
+				iOld++;
+				if(iOld==aSmallLi.length)
+					iOld=0;
+				/*if(iOld==aSmallLi.length-1)
+					iOld=0;
+				else iOld++;*/
+				tab();
+			}
+		}
+	};
+</script>
+</head>
+<body>
+<div class="content">
+	<div id="big">
+		<ul>
+			<li style="z-index:1"><img src="img/big1.jpg" /></li>
+			<li><img src="img/big2.jpg" /></li>
+			<li><img src="img/big3.jpg" /></li>
+			<li><img src="img/big4.jpg" /></li>
+		</ul>
+		<div id="leftDiv"></div>
+		<div id="rightDiv"></div>
+
+		<a href="#" id="left"> < </a>
+		<a href="#" id="right"> > </a>
+	</div>
+	<div id="small">
+		<ul>
+			<li><img src="img/small1.jpg" /></li>
+			<li><img src="img/small2.jpg" /></li>
+			<li><img src="img/small3.jpg" /></li>
+			<li><img src="img/small4.jpg" /></li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

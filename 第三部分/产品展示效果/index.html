@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>产品展示效果</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	body{
+		background:#eee;
+		font-size:12px;
+		color:#999;
+	}
+	ul{
+		list-style:none;
+	}
+	a{
+		text-decoration:none;
+		color:#999;
+	}
+	a:hover{
+		color:#000;
+	}
+	.content{
+		height:192px;
+		width:982px;
+		margin:100px auto;
+	}
+	.list{
+		height:162px;
+		width:840px;
+		background:#FFF;
+		padding:0 71px;
+		position:relative;
+	}
+	.list div{
+		width:840px;
+		height:162px;
+		overflow: hidden;
+		position:relative;
+	}
+	.list ul li{
+		width:140px;
+		height:151px;
+		float:left;
+		text-align:center;
+	}
+	#park{
+		position:absolute;
+		width:13px;
+		height:7px;
+		bottom:-7px;
+		left:424px;
+		background:url(img/caret_active.gif) no-repeat;
+	}
+	.chose{
+		height:30px;
+		width:982px;
+		line-height:30px;
+		text-align:center;
+		background:url(img/nav_bg.png) no-repeat;
+	}
+</style>
+<script src="function.js"></script>
+<script>
+	function getByClass(obj,name){
+		var aElement=obj.getElementsByTagName('*');
+		var arr=[];
+		var i=0;
+		for(i=0;i<aElement.length;i++){
+			if(aElement[i].className==name)
+				arr.push(aElement[i]);
+		}
+		return arr;
+	};
+	window.onload=function(){
+		var oUl=getByClass(document,'list')[0].getElementsByTagName('ul')[0];
+		var aNav=getByClass(document,'chose')[0].getElementsByTagName('a');
+		var aLi=document.getElementsByTagName('li');
+		var oPark=document.getElementById('park');
+		var i=0;
+		var time=null;
+		var aPos=[];
+		oUl.style.position='absolute';
+		oUl.style.width=aLi.length*aLi[0].offsetWidth+'px';
+		oUl.style.left=0;
+		for(i=0;i<aLi.length;i++){
+			aPos[i]=aLi[i].offsetLeft;
+		}
+		for(i=0;i<aLi.length;i++){
+			aLi[i].style.position='absolute';
+			aLi[i].style.left=aPos[i]+'px';
+		}
+		aNav[0].style.color='#000';
+		aNav[1].style.color='#999';
+		aNav[0].onOff=true;
+		aNav[1].onOff=false;
+
+		aNav[0].onclick=function(){
+			if(!this.onOff){
+				oPark.style.left='424px';
+				i=aLi.length-1;
+				time=setInterval(function(){
+					startMove3(aLi[i],aPos[i]/*i*aLi[0].offsetWidth*/);
+						i--;
+					if(i==aLi.length/2-1){
+						clearInterval(time);
+						setTimeout(nextHalf,200);
+					}
+				},100);
+				function nextHalf(){
+					time=setInterval(function(){
+						startMove3(aLi[i],aPos[i]/*i*aLi[0].offsetWidth*/);
+						i--;
+						if(i<0){
+							clearInterval(time);
+						}
+					},100);
+				}
+				this.style.color='#000';
+				aNav[1].style.color='#999';
+				this.onOff=true;
+				aNav[1].onOff=false;
+			}
+		};
+		aNav[1].onclick=function(){
+			if(!this.onOff){
+				this.style.color='#000';
+				aNav[0].style.color='#999';
+				oPark.style.left='530px';
+				i=0;
+				time=setInterval(function(){
+					if(i<aLi.length/2){
+						startMove3(aLi[i],(i-aLi.length/2)*aLi[0].offsetWidth);
+						i++;
+					}
+					if(i==aLi.length/2){
+						clearInterval(time);
+						setTimeout(nextHalf,200);
+					}
+				},100);
+				function nextHalf(){
+					time=setInterval(function(){
+						startMove3(aLi[i],aPos[i-aLi.length/2]/*(i-aLi.length/2)*aLi[0].offsetWidth*/);
+						i++;
+						if(i==aLi.length){
+							clearInterval(time);
+						}
+					},100);
+					this.onOff=true;
+					aNav[0].onOff=false;
+				}
+			}
+		};
+	}
+</script>
+</head>
+<body>
+<div class="content">
+	<div class="list">
+		<div>
+			<ul>
+				<li><a href="#">
+					<img src="img/1.jpg" />
+					<p>Download iTunes 10</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/2.jpg" />
+					<p>iTunes Gift Cards</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/3.jpg" />
+					<p>Nike + iPod</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/4.jpg" />
+					<p>(PRODUCT) RED</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/5.jpg" />
+					<p>MobileMe</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/6.jpg" />
+					<p>In-Ear Headphones</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/7.jpg" />
+					<p>Download iTunes 10</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/8.jpg" />
+					<p>iTunes Gift Cards</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/9.jpg" />
+					<p>Nike + iPod</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/10.jpg" />
+					<p>(PRODUCT) RED</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/11.jpg" />
+					<p>MobileMe</p></a>
+				</li>
+				<li><a href="#">
+					<img src="img/12.jpg" />
+					<p>In-Ear Headphones</p></a>
+				</li>
+			</ul>
+		</div>	
+		<p id="park"></p>
+	</div>
+	<p class="chose"><a href="#">Products</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">iTunes and more</a></p>
+</div>
+</body>
+</html>

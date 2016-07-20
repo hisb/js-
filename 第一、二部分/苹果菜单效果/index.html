@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>苹果菜单</title>
+<style>
+	*{margin:0;padding:0;}
+	img{width:128px;}
+	div{position:absolute;bottom:0;text-align:center;width:100%;}
+</style>
+<script>
+	window.onload=function(){
+		
+		document.onmousemove=function(ev){
+			var oDiv=document.getElementsByTagName('div')[0];
+			var aImg=oDiv.getElementsByTagName('img');
+			var aInt=document.getElementsByTagName('input');
+			var i=0;
+			var oEvent=ev||event;
+			for(i=0;i<aImg.length;i++){
+				var x=aImg[i].offsetLeft+aImg[i].offsetWidth/2;
+				var y=aImg[i].offsetTop+oDiv.offsetTop+aImg[i].offsetHeight/2;
+				var disX=oEvent.clientX-x;
+				var disY=oEvent.clientY-y;
+				var dis=Math.sqrt(disY*disY+disX*disX);
+				var scla=1-dis/600;
+				if(scla<0.5)
+					scla=0.5;
+				aImg[i].style.width=scla*256+'px';
+				aInt[i].value=scla;
+			}
+		};
+	}
+</script>
+</head>
+<body>
+<input type="text" />
+<input type="text" />
+<input type="text" />
+<input type="text" />
+<input type="text" />
+<div>
+	<img src="icon1.png" />
+	<img src="icon2.png" />
+	<img src="icon3.png" />
+	<img src="icon4.png" />
+	<img src="icon5.png" />
+</div>
+</body>
+</html>

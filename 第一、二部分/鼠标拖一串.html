@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+	div{
+		height:5px;
+		width:5px;
+		background:red;
+		position:absolute;
+		top:0;
+		left:0;
+	}
+</style>
+<script>
+	window.onload=function(){
+		var aDiv=document.getElementsByTagName('div');
+		var i=0;
+		document.onmousemove=function(eve){
+			var oEvent=eve||event;
+			for(i=aDiv.length-1;i>0;i--){
+				aDiv[i].style.top=aDiv[i-1].style.top;
+				aDiv[i].style.left=aDiv[i-1].style.left;
+			}
+			aDiv[0].style.top=oEvent.clientY+'px';
+			aDiv[0].style.left=oEvent.clientX+'px';
+		}
+	}
+</script>
+</head>
+<body>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</body>
+</html>

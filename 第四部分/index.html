@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>贪吃蛇</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+		border:none;
+	}
+	.content{
+		width:400px;
+		height:450px;
+		margin:50px auto 0;
+	}
+	#box{
+		height:400px;
+		width:400px;
+		border:1px solid #000;
+		margin-top:10px;
+		position:relative;
+	}
+	#startBtn input{
+		border:1px solid #000;
+		border-radius:5px;
+		line-height:30px;
+		width:80px;
+		text-align: center;
+		
+	}
+	#box div{
+		height:20px;
+		width:20px;
+		background:red;
+		position:absolute;
+	}
+</style>
+<script>
+	window.onload=function(){
+		var oBtn=document.getElementById('startBtn');
+		var oBox=document.getElementById('box');
+		var aDiv=oBox.getElementsByTagName('div');
+		var oScore=document.getElementById('score');
+		var i=0;
+		var timer=null;
+		var secTime=400;
+		var iWidth=iHeight=aDiv[0].offsetWidth;
+		var n=0;
+		/*var oDiv=document.createElement('div');
+		var x=Math.round(Math.random()*(oBox.offsetWidth-2));
+		var y=Math.round(Math.random()*(oBox.offsetHeight-2));
+		oDiv.style.top=y+'px';
+		oDiv.style.left=x+'px';
+		oBox.appendChild(oDiv);*/
+		//var pos=[];
+		for(i=0;i<aDiv.length;i++){
+			aDiv[i].style.top=0;
+			aDiv[i].style.left=(aDiv.length-1-i)*aDiv[i].offsetWidth+'px';
+		}
+		function check(){
+			if(aDiv[aDiv.length-1].offsetTop>=aDiv[0].offsetTop+iHeight||aDiv[aDiv.length-1].offsetTop+iHeight<=aDiv[0].offsetTop||aDiv[aDiv.length-1].offsetLeft>=aDiv[0].offsetLeft+iWidth||aDiv[aDiv.length-1].offsetLeft+iWidth<=aDiv[0].offsetLeft)
+				var chec=false;
+			else {
+				chec=true;
+				oScore.innerHTML="你的分数:"+n;
+				if(n%3==0) {
+					if(parseInt(secTime-50)<50)
+						secTime=50;
+					else
+						secTime-=50;
+				}
+			}
+			return chec;
+		}
+		function move(attr,key){
+			for(i=aDiv.length-2;i>0;i--){
+				aDiv[i].style.left = aDiv[i-1].offsetLeft+'px';
+				aDiv[i].style.top= aDiv[i-1].offsetTop+'px';
+			}
+			if(attr=='left'){
+				aDiv[0].style.left=aDiv[0].offsetLeft+(key==39?aDiv[0].offsetWidth:-aDiv[0].offsetWidth)+'px';
+				if(aDiv[0].offsetLeft<0||aDiv[0].offsetLeft>(oBox.offsetWidth-aDiv[0].offsetWidth-2))
+					{
+						if(aDiv[0].offsetLeft<0) aDiv[0].style.left=0;
+						else aDiv[0].style.left=oBox.offsetWidth-aDiv[0].offsetWidth-2+'px';
+						alert('GAME OVER');clearInterval(timer);
+					}
+			}
+			if(attr=='top'){
+				aDiv[0].style.top=aDiv[0].offsetTop+(key==40?aDiv[0].offsetHeight:-aDiv[0].offsetHeight)+'px';
+				if(aDiv[0].offsetTop<0||aDiv[0].offsetTop>(oBox.offsetHeight-aDiv[0].offsetHeight-2))
+					{
+						if(aDiv[0].offsetTop<0) aDiv[0].style.top=0;
+						else aDiv[0].style.top=oBox.offsetHeight-aDiv[0].offsetHeight-2+'px';
+						alert('GAME OVER');clearInterval(timer);
+					}
+			}
+			if(check()){
+				aDiv[aDiv.length-1].style.left = aDiv[aDiv.length-2].offsetLeft+'px';
+				aDiv[aDiv.length-1].style.top= aDiv[aDiv.length-2].offsetTop+'px';
+				createDiv();
+			}
+		};
+		function createDiv(){
+			var oDiv=document.createElement('div');
+			var x=Math.round(Math.random()*19)*20;
+			var y=Math.round(Math.random()*19)*20;
+			oDiv.style.top=y+'px';
+			oDiv.style.left=x+'px';
+			oBox.appendChild(oDiv);
+			n++;
+		}
+		oBtn.onclick=function(){
+			n=0;
+			createDiv();
+			timer=setInterval(function(){
+				//aDiv=oBox.getElementsByTagName('div');
+				move('left',39);
+			},secTime);
+			document.onkeydown=function(ev){document.title=secTime;
+				var oEvent=ev||event;
+				clearInterval(timer);
+				if(oEvent.keyCode==39){/*向右*/
+					move('left',oEvent.keyCode);
+					timer=setInterval(function(){
+						move('left',oEvent.keyCode);
+					},secTime);
+				}
+				if(oEvent.keyCode==38){/*向上*/
+					move('top',oEvent.keyCode);
+					timer=setInterval(function(){
+						move('top',oEvent.keyCode);
+					},secTime);
+				}
+				if(oEvent.keyCode==37){/*向左*/
+					move('left',oEvent.keyCode);
+					timer=setInterval(function(){
+						move('left',oEvent.keyCode);
+					},secTime);
+				}
+				if(oEvent.keyCode==40){/*向下*/
+					move('top',oEvent.keyCode);
+					timer=setInterval(function(){
+						move('top',oEvent.keyCode);
+					},secTime);
+				}
+			};
+			
+		};
+	};
+</script>
+</head>
+<body>
+<div class="content">
+	<div id="startBtn"><input type="button" value="开始游戏" /><p>按上下左右键移动</p><p id="score">你的分数：0</p></div>
+	<div id="box">
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+</div>
+</body>
+</html>

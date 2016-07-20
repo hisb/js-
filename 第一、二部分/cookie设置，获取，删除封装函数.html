@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<script>
+	function setCookie(name,value,iDay){
+		var oDate=new Date();
+		oDate.setDate(oDate.getDate()+iDay);
+		document.cookie=name+'='+value+';expires='+oDate;
+	}
+	setCookie('faf','cyl',30);
+	setCookie('password','123456',30);
+	setCookie('username','hah',30);
+	function getCookie(name){
+		var arr=document.cookie.split('; ')
+		var i;
+		for(i=0;i<arr.length;i++){
+			var arr1=arr[i].split('=');
+			if(arr1[0]==name)
+				return arr1[1];
+		}
+		return '';
+	}
+	//alert(getCookie('username'));
+	function removeCookie(name){
+		setCookie(name,'1',-1);
+	}
+	alert(document.cookie);
+	removeCookie('username');
+	alert(document.cookie);
+</script>
+</head>
+<body>
+</body>
+</html>

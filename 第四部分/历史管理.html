@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>历史管理</title>
+<script>
+	window.onload=function(){
+		var oBtn = document.getElementById('btn');
+		var oDiv=document.getElementById('text');
+		a(35,7);
+		function a(all,num){
+			var arr=[];
+			for(var i=1;i<=all;i++)
+				arr.push(i);
+			var b={};
+			oBtn.onclick = function(){
+				var a=[];
+				/*var pos=Math.random();*/
+				for(var i=0;i<num;i++){
+					a.push(arr[Math.floor(Math.random()*all)]);
+				}
+				oDiv.innerHTML=a;
+				history.pushState(a,'');
+				window.onpopstate=function(ev)
+				{
+					var oEvent=ev||event;
+					oDiv.innerHTML=oEvent.state;
+				}
+				/*b[pos]=a;
+				window.location.hash=pos;
+				window.onhashchange=function(){
+					oDiv.innerHTML=b[window.location.hash.substring(1)]||'';
+				};	*/
+			};
+			
+		};
+
+	};
+</script>
+</head>
+<body>
+	<input type="button" value="下一波" id="btn" />
+	<div id="text"></div>
+</body>
+</html>

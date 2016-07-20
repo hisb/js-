@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>事件委托</title>
+
+<script>
+	window.onload=function(){
+		var oUl=document.getElementById('ul1');
+		var oIpt=document.getElementsByTagName('input')[0];
+		var xnnye2015=['刘北京','刘石华','岳平','黄琦','董小姐','蔡雅玲','杨金海','阳嘉兴','周雅倩','洪梦楠','舒映','李敏','兰勤','梁雨欣','向雨丝'];
+		oUl.onmouseover=function(eve){
+			var oEvent=eve||window.event;
+			var target=oEvent.target||oEvent.srcElement;
+			if(target.nodeName=='LI')
+				target.style.background='red';
+		}
+		oUl.onmouseout=function(eve){
+			var oEvent=eve||window.event;
+			var target=oEvent.target||oEvent.srcElement;
+			if(target.nodeName=='LI')
+				target.style.background='';
+		}
+		/*oUl.onclick=function(eve){
+			var oEvent=eve||window.event;
+			var target=oEvent.target||oEvent.srcElement;
+			if(target.nodeName=='LI')
+				// target.style.background='';
+				alert(0);
+		}*/
+		var i=0;
+		for(i=0;i<6;i++){
+			var oLi=document.createElement('li');
+			oLi.innerHTML=xnnye2015[i];
+			oUl.appendChild(oLi);
+		}
+		oIpt.onclick=function(){
+			var oLi=document.createElement('li');
+			oLi.innerHTML=xnnye2015[i];
+			oUl.appendChild(oLi);
+			i++;
+			if(i==15){
+				i=0;
+				alert('新叶15届所有成员~');
+			}
+		}
+	}
+</script>
+</head>
+<body>
+<input type="button" value="添加" />
+<ul id="ul1">
+	<!-- <li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li> -->
+</ul>
+</body>
+</html>

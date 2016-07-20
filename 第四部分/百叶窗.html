@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>百叶窗</title>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	ul{
+		list-style:none;
+		float:left;
+		width:300px;
+		border-top:1px solid #000;
+		margin:50px;
+	}
+	ul>li{
+		height:30px;
+		line-height:30px;
+		width:100%;
+		border-bottom:1px dashed #000;
+		overflow: hidden;
+		position:relative;
+	}
+	li>div{
+		position:absolute;
+		top:-30px;
+		left:0;
+	}
+	li>div>p{
+		height:30px;
+	}
+</style>
+<script type="text/javascript">
+	window.onload=function(){
+		var oUl=document.getElementById('ul1');
+		var oUl2=document.getElementById('ul2');
+		a(oUl);
+		setTimeout(function(){
+			a(oUl2);
+		},2000);
+		function a(obj){
+			var aDiv=obj.getElementsByTagName('div');
+			var onOff=1;
+			setInterval(function(){
+				b(aDiv,onOff);
+				onOff=!onOff;
+			},4000);
+		};
+		function b(aObj,onOff){
+			var pos=0;
+			var timer=setInterval(function(){
+				if(onOff)
+					domove(aObj[pos],'top',2,0);
+				else
+					domove(aObj[pos],'top',2,-30);
+				pos++;
+				if(pos==aObj.length){
+					clearInterval(timer);
+					pos=0;
+				}
+			},20);
+		}
+		/*function move(obj,target,attr){
+			var iSpeed=2;
+			clearInterval(obj.timer);
+			obj.timer=setInterval(function(){
+				var a=parseInt(obj.style[attr]);
+				var b=a>target?a-iSpeed:a+iSpeed;
+				if(Math.abs(target-b)<5){
+					obj.style[attr]=target+'px';
+					clearInterval(timer);
+				}
+				else
+					obj[attr]=b+'px';
+			},30);
+		};*/
+		function getStyle(obj,attr){
+			attr = obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+			return attr;
+		}
+		function domove(obj,attr,dir,targer,endFn){
+			clearInterval(obj.timer);
+			dir = parseInt(getStyle(obj,attr)) < targer ? dir : -dir;
+			obj.timer = setInterval(function(){
+				var pos = parseInt(getStyle(obj,attr));
+				var speed = pos + dir;
+				if(speed > targer&&dir > 0||speed < targer&&dir < 0){
+					speed = targer;
+					clearInterval(obj.timer);
+					endFn&&endFn();
+				}
+				obj.style[attr] = speed + 'px';
+				/*if(speed == targer){
+					
+				}	*/	
+			},30);
+		}
+	}
+</script>
+</head>
+<body>
+<ul id="ul1">
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+</ul>
+<ul id="ul2">
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+	<li>
+		<div>
+			<p>欧巴</p>
+			<p>董小姐</p>
+		</div>
+	</li>
+</ul>
+</body>
+</html>
